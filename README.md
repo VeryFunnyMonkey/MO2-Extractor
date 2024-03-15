@@ -6,6 +6,11 @@ I created this to be used on the Steam Deck, where Mod Organizer 2 doesn't work 
 
 I've only tested this for a handful of mods, I didn't have any issues with the mods I tested but I could see mods that utilise some MO2 features maybe not working.
 
+## Usage
+1. Click Source - select a modlist.txt from a MO2 profile.
+2. Click Destination - select a folder that the mod files will be extracted to - !!!THIS WILL OVERWRITE ANYTHING IN THE FOLDER!!!
+3. The files will begin to be copied across, once complete a popup will appear letting you know.
+
 ## Required Libraries:
 
     pysimplegui=4.60.5
