@@ -51,6 +51,7 @@ To compile the exe is using psgcompiler with the following flags
  - Currently the UI will freeze during copying, it will still copy the files in the background however. When it is complete a message will still appear.
 
 ## TODO:
+ - Copy .ini files to correct folders for Steam Deck.
  - Allow for the browsing of mods, allowing the user to tick/untick mods in the modlist.
  - Test some bigger modlists, and see if there's any mods that don't extract well.
  - Rewrite the UI in another GUI, PySimpleGui is a bit annoying.
