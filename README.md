@@ -11,17 +11,41 @@ I've only tested this for a handful of mods, I didn't have any issues with the m
 2. Click Destination - select a folder that the mod files will be extracted to - !!!THIS WILL OVERWRITE ANYTHING IN THE FOLDER!!!
 3. The files will begin to be copied across, once complete a popup will appear letting you know.
 
+## Downloading the Latest Release
+
+1. Navigate to the [Releases](https://github.com/Danjaraka/MO2-Extractor/releases) page of this repository.
+2. Look for the latest release. The releases are tagged and include brief notes about what changes were made.
+3. Under the release notes and assets, click on the asset that corresponds with your platform and download it.
+
 ## Required Libraries:
+pysimplegui==4.60.5
 
-    pysimplegui=4.60.5
+## Manual Compilation
 
+### Linux
+To compile the program, you will need to have the following installed:
+```bash
+    sudo apt-get install python3 python3-pip python3-venv
+```
+Then you can create a virtual environment and install the required libraries:
+```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+```
+Then you can run the program with:
+```bash
+    python mo2Extractor.py
+```
 
-The precompiled exe is using psgcompiler with the following flags
-
+### Windows
+To compile the exe is using psgcompiler with the following flags
+```ps1
     --onedir --console --workpath "C:/dev/mo2Extractor/psc_mo2Extractor_tmp" --distpath "C:/dev/mo2Extractor" --specpath "C:/dev/mo2Extractor" "C:/dev/mo2Extractor/mo2Extractor.py"
+```
 
 ## TODO:
- - Allow for the browing of mods, allowing the user to tick/untick mods in the modlist.
+ - Allow for the browsing of mods, allowing the user to tick/untick mods in the modlist.
  - Test some bigger modlists, and see if there's any mods that don't extract well.
  - Rewrite the UI in another GUI, PySimpleGui is a bit annoying.
 
