@@ -21,7 +21,7 @@ The precompiled exe is using psgcompiler with the following flags
     --onedir --console --workpath "C:/dev/mo2Extractor/psc_mo2Extractor_tmp" --distpath "C:/dev/mo2Extractor" --specpath "C:/dev/mo2Extractor" "C:/dev/mo2Extractor/mo2Extractor.py"
 
 ## TODO:
- - Allow for the browing of mods, allowing the user to tick/untick mods in the modlist.
+ - Allow for the browsing of mods, allowing the user to tick/untick mods in the modlist.
  - Test some bigger modlists, and see if there's any mods that don't extract well.
  - Rewrite the UI in another GUI, PySimpleGui is a bit annoying.
 
