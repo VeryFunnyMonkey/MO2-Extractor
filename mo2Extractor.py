@@ -1,5 +1,6 @@
 import os
 import shutil
+import threading
 
 import PySimpleGUI as sg
 
@@ -25,6 +26,13 @@ def copy_mod_list(mod_list_file, mod_list, destination, output_elem):
             output += "Copying mod: " + mod + "\n"
             shutil.copytree((modsFolder + "/" + mod), destination, dirs_exist_ok=True)
             output_elem.update(value=output)
+    sg.popup("Mod list copying started successfully!")
+
+
+def copy_mods_thread(mod_list_file, mod_list, destination, output_elem):
+    t = threading.Thread(target=copy_mod_list, args=(mod_list_file, mod_list, destination, output_elem))
+    t.daemon = True  # Set the thread as daemon - kills the thread on window close
+    t.start()
 
 
 def main():
@@ -51,8 +59,7 @@ def main():
             destination = values["destination"]
             if source and destination:
                 modList = read_mod_list(source)
-                copy_mod_list(source, modList, destination, window["-OUTPUT-"])
-                sg.popup("Mod list copied successfully!")
+                copy_mods_thread(source, modList, destination, window["-OUTPUT-"])
 
     window.close()
 
