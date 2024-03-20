@@ -31,6 +31,7 @@ def copy_mod_list(mod_list_file, mod_list, destination, output_elem):
 
 def copy_mods_thread(mod_list_file, mod_list, destination, output_elem):
     t = threading.Thread(target=copy_mod_list, args=(mod_list_file, mod_list, destination, output_elem))
+    t.daemon = True  # Set the thread as daemon - kills the thread on window close
     t.start()
 
 
