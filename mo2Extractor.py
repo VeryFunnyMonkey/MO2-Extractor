@@ -42,7 +42,7 @@ def copy_mods_thread(mod_list_file, mod_list, destination, output_elem):
 
 
 def main():
-    layout = [
+    tab1_layout = [
         [
             sg.Text("Source"),
             sg.InputText(key="source", enable_events=True),
@@ -54,6 +54,13 @@ def main():
         [sg.Output(size=(60, 10), key="-OUTPUT-", font="Courier 10")],
     ]
 
+    tab2_layout = [
+        [sg.Text("Enter a source first.", key="-FILTERTEXT-")
+        ],
+    ]
+
+    layout = [[sg.TabGroup([[sg.Tab("Copy Mods", tab1_layout), sg.Tab("Filter Mods", tab2_layout)]])]]
+
     window = sg.Window("Mod Copy Tool", layout)
 
     while True:
@@ -64,6 +71,7 @@ def main():
             source = values["source"]
             modList = read_mod_list(source)
             mods_folder = set_mod_folder(source, window["-OUTPUT-"])
+            window["-FILTERTEXT-"].update("Toggle Mods to be copied")
         if event=="destination":
             destination = values["destination"]
         if event == "Go":
