@@ -96,13 +96,13 @@ def main():
                     update_mods_list(mod_list, window["-ENABLEDMODS-"], window["-DISABLEDMODS-"])
         if event == "-DESTINATION-":
             destination = values["-DESTINATION-"]
-        if event == "-ENABLEDMODS-" and enabled_mods:
+        if event == "-ENABLEDMODS-" and values["-ENABLEDMODS-"]:
             selected_mod = values["-ENABLEDMODS-"][0]
             enabled_mods.remove(selected_mod)
             disabled_mods.append(selected_mod)
             window["-ENABLEDMODS-"].update(values=enabled_mods)
             window["-DISABLEDMODS-"].update(values=disabled_mods)
-        if event == "-DISABLEDMODS-" and disabled_mods:
+        if event == "-DISABLEDMODS-" and values["-DISABLEDMODS-"]:
             selected_mod = values["-DISABLEDMODS-"][0]
             disabled_mods.remove(selected_mod)
             enabled_mods.append(selected_mod)
