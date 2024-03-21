@@ -11,14 +11,18 @@ def read_mod_list(mod_list_file):
     mod_list.reverse()
     return mod_list
 
-def set_mod_folder(mod_list_file):
+
+def set_mod_folder(mod_list_file, ):
     mods_folder = mod_list_file.split("/profiles")[0] + "/mods"
 
     if not os.path.exists(mods_folder):
         mods_folder = sg.popup_get_folder("Mods folder not found! Please specify the mods folder.")
-        
-    print("Mods Folder: \n" +  mods_folder)
+        if not mods_folder:
+            return mods_folder
+
+    print("Mods Folder: \n" + mods_folder)
     return mods_folder
+
 
 def copy_mod_list(mods_folder, mod_list, destination, enabled_mods_elem):
     mod_files = os.listdir(mods_folder)
@@ -29,10 +33,9 @@ def copy_mod_list(mods_folder, mod_list, destination, enabled_mods_elem):
     enabled_mods = enabled_mods_elem.get_list_values()
     for mod in mod_list:
         if mod in mod_files and mod in enabled_mods:
-            print( "Copying mod: " + mod + "\n")
+            print("Copying mod: " + mod + "\n")
             shutil.copytree((mods_folder + "/" + mod), destination, dirs_exist_ok=True)
     print("Mod list copied successfully!\n")
-    # sg.popup("Mod list copied successfully!") -- Need to call it in the main thread, workaround is to update the output.
 
 
 def copy_mods_thread(mod_list_file, mod_list, destination, enabled_mods_elem):
@@ -47,30 +50,28 @@ def update_mods_list(mod_list, enabled_mods_elem, disabled_mods_elem):
 
 
 def main():
+    sg.theme("LightGrey1")
+
     tab1_layout = [
         [
             sg.Text("Source"),
-            sg.InputText(key="source", enable_events=True),
+            sg.InputText(key="-SOURCE-", enable_events=True, readonly=True),
             sg.FileBrowse(file_types=(("Modlist Files", "modlist.txt"),)),
         ],
-        [sg.Text("Destination"), sg.InputText(key="destination", enable_events=True), sg.FolderBrowse()],
-        [sg.Button("Go")],
+        [sg.Text("Destination"), sg.InputText(key="-DESTINATION-", enable_events=True, readonly=True), sg.FolderBrowse()],
+        [sg.Button("Go", size=(8, 1), bind_return_key=True)],
         [sg.Text("Output", size=(10, 1))],
-        [sg.Output(size=(60, 10), key="-OUTPUT-", font="Courier 10")],
+        [sg.Output(size=(60, 20), key="-OUTPUT-", font="Courier 10")],
     ]
 
     tab2_layout = [
-        [
-            sg.Text("Enter a source first.", key="-FILTERTEXT1-")
-        ],
+        [sg.Text("Enabled Mods:")],
         [
             sg.Listbox(values=[], size=(60, 10), key="-ENABLEDMODS-", enable_events=True, select_mode="LISTBOX_SELECT_MODE_SINGLE")
         ],
+        [sg.Text("Disabled Mods:")],
         [
-            sg.Text("Enter a source first.", key="-FILTERTEXT2-")
-        ],
-        [
-            sg.Listbox(values=[], size=(60, 10), key="-DISABLEDMODS-",enable_events=True, select_mode="LISTBOX_SELECT_MODE_SINGLE")
+            sg.Listbox(values=[], size=(60, 10), key="-DISABLEDMODS-", enable_events=True, select_mode="LISTBOX_SELECT_MODE_SINGLE")
         ]
     ]
 
@@ -82,24 +83,26 @@ def main():
         event, values = window.read()
         if event == sg.WINDOW_CLOSED:
             break
-        if event=="source":
-            source = values["source"]
-            mod_list = read_mod_list(source)
-            enabled_mods = mod_list
-            disabled_mods = []
-            mods_folder = set_mod_folder(source)
-            window["-FILTERTEXT1-"].update("Enabled Mods:")
-            window["-FILTERTEXT2-"].update("Disabled Mods:")
-            update_mods_list(mod_list, window["-ENABLEDMODS-"], window["-DISABLEDMODS-"])
-        if event=="destination":
-            destination = values["destination"]
-        if event=="-ENABLEDMODS-" and enabled_mods:
+        if event == "-SOURCE-":
+            source = values["-SOURCE-"]
+            if values["-SOURCE-"]:
+                mod_list = read_mod_list(source)
+                enabled_mods = mod_list
+                disabled_mods = []
+                mods_folder = set_mod_folder(source)
+                if not mods_folder:
+                    window["-SOURCE-"].update("")
+                else:
+                    update_mods_list(mod_list, window["-ENABLEDMODS-"], window["-DISABLEDMODS-"])
+        if event == "-DESTINATION-":
+            destination = values["-DESTINATION-"]
+        if event == "-ENABLEDMODS-" and enabled_mods:
             selected_mod = values["-ENABLEDMODS-"][0]
             enabled_mods.remove(selected_mod)
             disabled_mods.append(selected_mod)
             window["-ENABLEDMODS-"].update(values=enabled_mods)
             window["-DISABLEDMODS-"].update(values=disabled_mods)
-        if event=="-DISABLEDMODS-" and disabled_mods:
+        if event == "-DISABLEDMODS-" and disabled_mods:
             selected_mod = values["-DISABLEDMODS-"][0]
             disabled_mods.remove(selected_mod)
             enabled_mods.append(selected_mod)
@@ -107,7 +110,7 @@ def main():
             window["-ENABLEDMODS-"].update(values=enabled_mods)
 
         if event == "Go":
-            if source and destination:
+            if values["-SOURCE-"] and values["-DESTINATION-"]:
                 copy_mods_thread(mods_folder, mod_list, destination, window["-ENABLEDMODS-"])
 
     window.close()
