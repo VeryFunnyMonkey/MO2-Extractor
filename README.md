@@ -1,7 +1,7 @@
 
 # MO2-Extractor
 
-![image](https://github.com/VeryFunnyMonkey/MO2-Extractor/assets/62693226/97735661-6473-443a-bcb7-abe699d7ab07)
+![image](https://github.com/VeryFunnyMonkey/MO2-Extractor/assets/62693226/4c6741b0-7c32-4ee3-a1f1-3bce4c817d3f)
 
 
  Mod Organizer 2 Extractor, used to extract raw files from modlist.
